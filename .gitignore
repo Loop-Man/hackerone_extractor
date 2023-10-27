@@ -1,0 +1,5 @@
+programs/
+global.conf
+programs.json
+programs_unified.json
+programs_handle.txt
