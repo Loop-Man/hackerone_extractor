@@ -1,0 +1,19 @@
+#!/bin/bash
+
+
+# Forma manual y a modo de ejemplo de como trabaja la api
+
+curl "https://api.hackerone.com/v1/hackers/programs?page%5Bnumber%5D=1&page%5Bsize%5D=100" \
+  -X GET \
+  -u "loop-man:Gma6deJRpWfJ33+3nJ7wpSeLyjo9Mv7jeNCqCLGNCHQ=" \
+  -H 'Accept: application/json' | jq > programs.json
+
+
+jq -r '.data[].attributes.handle' programs.json > handle.json
+
+curl "https://api.hackerone.com/v1/hackers/programs/security" \
+  -X GET \
+  -u "loop-man:Gma6deJRpWfJ33+3nJ7wpSeLyjo9Mv7jeNCqCLGNCHQ=" \
+  -H 'Accept: application/json' | jq > program-security.json
+
+jq -r '.relationships.structured_scopes.data[] | {asset_type: .attributes.asset_type, asset_identifier: .attributes.asset_identifier}' program-security.json
